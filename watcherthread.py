@@ -35,9 +35,12 @@ class WatcherThread(Thread):
 						continue
 					self.conn_pool[acc_hash] = igc
 				count = self.conn_pool[acc_hash].get_new_mail_count()
-				all_nm_count += count
-				if count > 0:
-					tooltip.append('{0} {1} in {2}'.format(count, 'messages' if count > 1 else 'message', creds[0]))
+				if count is False:
+					tooltip.append('Fetching new mail error in {0}'.format(creds[0]))
+				else:
+					all_nm_count += count
+					if count > 0:
+						tooltip.append('{0} new in {1}'.format(count, creds[0]))
 			gobject.idle_add(self.set_icon_state, all_nm_count)
 			gobject.idle_add(self.set_icon_tooltip, tooltip)
 			self.upd_event.wait(float(config.CHECK_INTERVAL))
