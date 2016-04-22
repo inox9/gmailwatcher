@@ -1,7 +1,6 @@
 from threading import Thread
 import imapgmailclient
 import gobject
-import hashlib
 import config
 
 class WatcherThread(Thread):
